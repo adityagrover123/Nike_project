@@ -1,53 +1,54 @@
-import mongoose from "mongoose"
-const userSchema=new mongoose.Schema({
-    NAME:{
-        first_name:{
-        type:String,
-        required:true,
-        unique:true,
-        
-        lowercase:true,
-        },
-        last_name:{
-            type:String,
-            required:true,
-            unique:true,
-            lowercase:true,
-        },
+const mongoose = require('mongoose');
+const userSchema = mongoose.Schema({
+    username: {
+        type: String,
+        required: true
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true,
-        lowercase:true,
+    password: {
+        type: password,
+        required: true
     },
-    password:{
-        type:String,
-        required:true,
+    fullName: {
+        type: String,
+        required: true
     },
-    address:{
-        // nearby:{
-        //     type:String,
-        // },
-        city:{
-            type:String,
-        },
-        pincode:{
-            required:true,
-            type:String,
-        }
+    mobNo: {
+        type: String,
+        required: true
     },
-    // Find_a_Nike_Store:{
-       
-    // }
-    favourites:{
-        type:mongoose.Schema.Types.objectId,
-        ref:"Product",
+    email: {
+        type: String,
+        required: true
     },
-    CART:{
+    profile: {
+        type: String,
+        enum: ['Customer', 'Admin', 'Super-Admin'],
+        default: 'Customer'
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    dateOfBirth: {
+        type: Date,
+        required: true
+    },
+    Orders: [{
+        // ref of products schema 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProductModel",
+    }],
+    wishlist:
+        [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "ProductModel",
+            }
+        ],
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProductModel",
+    }
+})
 
-            type:[orderItemSchema],
-    },
-
-},{timestamps:true})
-export const user=mongoose.model("user",userSchema)
+module.exports = mongoose.model('UserModel', userSchema);

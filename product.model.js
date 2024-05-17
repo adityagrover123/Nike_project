@@ -1,58 +1,59 @@
-import mongoose from "mongoose"
-const productSchema=new mongoose.Schema({
-    view_product_details:{
-        description:{
-            type:String,
-            required:true,
-        },
-        reviews:{
-            type:String,
-        },
-        rating:{
-            type:Number,
-        }
-
+const mongoose = require('mongoose');
+const ProductSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
     },
-    product_id:{
-        type:String,
-        required:true,
-    },
-    size:{
-        UK:{
-            type:Number,
-            required:true,
-        },
-        India:{
-            type:Number,
-            required:true,
-        }
-    },
-    name:{
-        type:String,
-        required:true,
-    },
-    productImage:{
+    style:{
         type:String,
     },
-    price:{
-        type:Number,
-        default:0,
+    description: {
+        type: String,
+        required: true
     },
-    stock:{
-        default:0,
-        type:Number,
-    },
-    category:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Category"
-    },
-    // category:{
-    // enum:["NEW FEATURED","MEN","WOMEN","KIDS","SALE","SNKRS","SPORTS"],
-    // default:"SALE", 
+    // price: {
+    //     type: Number,
+    //     required: true,
+    //     min: 0
     // },
-    owner:{
-        type:mongoose.Schema.Types.objectId,
-        ref:"User"
+    size:[{
+        india:{
+            type:String
+        },
+        uk:{
+            type:String
+        },
+        stock:{
+            type:Number,
+            required:true,
+            default:0
+        },
+        // setting price for individual size of item
+        price:{
+            type:Number,
+            required:true,
+            default:99
+        },
+        discount:{
+            type:Number,
+            default:0
+        },
+        discountedPrice:{
+            type:Number,
+        },
+        color:[{
+            type:String,
+            required:true
+        }]
+    }],
+    category: {
+        // confusion in setting the discount category wise on product
+        type:String,
+        enum:["Men","Women","Sale","Sports","Sneakrs","Kids","New-Arrival"],
+        default:"New-Arrival"
     },
-},{timestamps:true})
-export const Product=mongoose.model("Product",productSchema)
+    imageUrl:[{
+        type:String,
+    }],
+})
+module.exports = mongoose.model("ProductModel",ProductSchema)
